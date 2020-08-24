@@ -575,3 +575,7 @@ class ArrayTestCase(common.JPypeTestCase):
     def testLengthProperty(self):
         ja = JArray(JInt)([1, 2, 3])
         self.assertEqual(ja.length, len(ja))
+
+    def testCtorSlice(self):
+        ja = JArray(JInt)([1, 2, 3, 4, 5])
+        self.assertElementsEqual(JArray(JInt)(ja[1:3]), JArray(JInt)([2,3]))

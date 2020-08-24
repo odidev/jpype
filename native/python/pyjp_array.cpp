@@ -74,6 +74,19 @@ static int PyJPArray_init(PyObject *self, PyObject *args, PyObject *kwargs)
 			JP_RAISE(PyExc_TypeError, "Class must be array type");
 		if (arrayClass2 != arrayClass)
 			JP_RAISE(PyExc_TypeError, "Array class mismatch");
+		if (PyObject_IsInstance(v, (PyObject*) PyJPArray_Type))
+		{
+			JPArray* a = ((PyJPArray*) v)->m_Array;
+			if (a->isSlice())
+			{
+				jlong length =  PySequence_Size(v);
+				JPValue newArray = arrayClass->newArray(frame, (int) length);
+				((PyJPArray*) self)->m_Array = new JPArray(newArray);
+				((PyJPArray*) self)->m_Array->setRange(0, (jsize) length, 1, v);
+				PyJPValue_assignJavaSlot(frame, self, newArray);
+				return 0;
+			}
+		}
 		((PyJPArray*) self)->m_Array = new JPArray(*value);
 		PyJPValue_assignJavaSlot(frame, self, *value);
 		return 0;

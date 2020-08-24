@@ -7,6 +7,8 @@ Latest Changes:
 
 - **1.0.3_dev0 - unreleased**
 
+  - Fixed bug with copy constructor not respecting copy of array slices.
+
   - Fixed crash when manually creating wrappers for anonymous classes.
 
   - Fixed reference count problem in stackframes used for exceptions.
